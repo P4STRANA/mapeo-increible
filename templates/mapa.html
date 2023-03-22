@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<div id="mapid"></div>
+
+<script>
+    $.ajax({
+      url: '/api/puntos',
+      type: 'GET',
+      success: function(data) {
+          console.log(data)
+          for (var i=0; i < data.length; i++ ) {
+          var marker = L.marker([data[i].latitud, data[i].longitud]).addTo(mymap);
+          marker.bindPopup(data[i].nombre);
+          }
+      }
+       });
+  var mymap = L.map('mapid').setView([-25.508543037561886, -54.63139827955894], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Bomberos Voluntarios',
+      maxZoom: 16,
+  }).addTo(mymap);
+</script>
+{% endblock %} 

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block body %}
+  <div class="grid grid-rows-2">
+    <div id="mapid"></div>
+
+    <div class="px-4 sm:px-6 lg:px-8 ">
+        <div class="sm:flex sm:items-center">
+          <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+          </div>
+        </div>
+        <div class="mt-8 flow-root">
+          <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                <form action="{{ url_for('agregar') }}" method="post">
+                    <table class="min-w-full bg-yellow-600 divide-y divide-gray-300">
+                        <thead class="bg-gray-300">
+                          <tr>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Latitud</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Longitud</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nombre</th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-gray-100">
+                          <tr>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              <input type="text" name="latitud" id="latitud">
+      
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              <input type="text" name="longitud" id="longitud">
+      
+      
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              <input type="text" name="nombre" >
+                              <input type="submit" class="rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
+
+                            </td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $.ajax({
+          url: '/api/puntos',
+          type: 'GET',
+          success: function(data) {
+              console.log(data)
+              for (var i=0; i < data.length; i++ ) {
+              var marker = L.marker([data[i].latitud, data[i].longitud]).addTo(mymap);
+              marker.bindPopup(data[i].nombre);
+              }
+          }
+           });
+      var mymap = L.map('mapid').setView([-25.508543037561886, -54.63139827955894], 16);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: 'Bomberos Voluntarios',
+          maxZoom: 16,
+      }).addTo(mymap);
+
+      // Creamos el script que nos permita obtener los datos del punto con un click sobre el mapa
+          var markerAdded = false;
+
+          mymap.on('click', function(e){
+              if (!markerAdded) {
+                  var latitud = e.latlng.lat;
+                  var longitud = e.latlng.lng;
+                  var marker = L.marker([latitud, longitud]).addTo(mymap);
+                  markerAdded = true;
+              }
+              var input_lng = document.getElementById("longitud");
+              var input_lat = document.getElementById("latitud");
+              input_lat.value = latitud;
+              input_lng.value = longitud;
+          })
+  </script>
+{% endblock %}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> <!--Replace with your tailwind.css once created-->
+	<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+    <title>Coordenadas</title>
+</head>
+<body class="bg-orange-400" >
+
+        <!--Nav-->
+        <nav id="header" class="w-full z-30 top-0 text-white py-1 lg:py-6 ">
+            <div
+              class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-2 lg:py-6"
+            >
+              <div class="pl-4 flex items-center">
+                <a
+                  class="text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+                  href="#"
+                >
+                  <svg
+                    class="h-6 w-6 inline-block fill-current text-yellow-700"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M13 8V0L8.11 5.87 3 12h4v8L17 8h-4z" />
+                  </svg>
+                  penguin -web
+                </a>
+              </div>
+      
+              <div class="block lg:hidden pr-4">
+                <button
+                  id="nav-toggle"
+                  class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-800 hover:border-green-500 appearance-none focus:outline-none"
+                >
+                  <svg
+                    class="fill-current h-3 w-3"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>Menu</title>
+                    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                  </svg>
+                </button>
+              </div>
+      
+              <div
+          class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 text-black p-4 lg:p-0 z-20"
+          id="nav-content"
+        >
+          <ul class="list-reset lg:flex justify-end flex-1 items-center">
+            <li class="mr-3">
+              <a
+                class="inline-block py-2 px-4 text-black font-bold no-underline"
+                href="{{ url_for('index') }}"
+                >inicio</a
+              >
+            </li>
+            <li class="mr-3">
+              <a
+                class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+                href="{{url_for('data')}}"
+                >Puntos de Interes</a
+
+              >
+            </li>
+            <li class="mr-3">
+              <a
+                class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+                href="{{ url_for('agregar_punto') }}"
+                >Agregar</a
+              >
+            </li>
+          </ul>
+          <a href="{{ url_for('mapa') }}"
+            class="mx-auto lg:mx-0 hover:underline text-gray-800 font-extrabold rounded mt-4 lg:mt-0 py-4 px-8 shadow opacity-75"
+          >
+            Mapa
+        </a>
+        </div>
+            </div>
+
+
+<div class="px-4 sm:px-6 lg:px-8 ">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="pt-6 text-2xl font-montserrat leading-6 text-white">Puntos de Interes</h1>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      </div>
+    </div>
+    <div class="mt-8 flow-root">
+      <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nombre</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Latitud</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Longitud</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Categoria</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Eliminar</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                {% for i in ver_data %}
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">1</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ i.nombre}}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ i.latitud}}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ i.longitud}}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ i.categoria}}</td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
+                    <a href="http://127.0.0.1:1000/eliminar/{{ i.id }}" class="text-indigo-600 hover:text-indigo-900">Eliminar<span class="sr-only">, Esto no se que es</span></a>
+                  </td>
+                </tr>
+                {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<footer>
+    <div class="mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8">
+    <nav class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
+        <div class="pb-6">
+        <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">About</a>
+        </div>
+
+        <div class="pb-6">
+        <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Blog</a>
+        </div>
+
+        <div class="pb-6">
+        <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Jobs</a>
+        </div>
+    </nav>
+    <div class="mt-10 flex justify-center space-x-10">
+        <a href="#" class="text-gray-400 hover:text-gray-500">
+        <span class="sr-only">Facebook</span>
+        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+        </svg>
+        </a>
+
+        <a href="#" class="text-gray-400 hover:text-gray-500">
+        <span class="sr-only">Instagram</span>
+        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+        </svg>
+        </a>
+    </div>
+    <p class="mt-10 text-center text-xs leading-5 text-gray-500">&copy; 2020 Your Company, Inc. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
+
+

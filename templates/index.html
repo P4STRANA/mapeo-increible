@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Página principal</title>
+    <style>
+        #mapid {height: 700px;}
+    </style>
+</head>
+<body>
+    <div id="mapid"></div>
+
+    <script>
+        $.ajax({
+            url: '/api/puntos',
+            type: 'GET',
+            success: function(data) {
+                console.log(data)
+                for (var i=0; i < data.length; i++ ) {
+                var marker = L.marker([data[i].latitud, data[i].longitud]).addTo(mymap);
+                marker.bindPopup(data[i].nombre);
+                }
+            }
+             });
+        var mymap = L.map('mapid').setView([-25.508543037561886, -54.63139827955894], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Bomberos Voluntarios',
+            maxZoom: 16,
+        }).addTo(mymap);
+    </script>
+</body>
+</html>

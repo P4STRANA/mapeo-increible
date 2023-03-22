@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Categoria</th>
+                <th>Eliminar</th>                
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in ver_data %}
+                <tr>
+                    <td>{{ i.id}}</td>
+                    <td>{{ i.nombre}}</td>
+                    <td>{{ i.latitud}}</td>
+                    <td>{{ i.longitud}}</td>
+                    <td>{{ i.categoria}}</td>
+                    <td>
+                        <a href="http://127.0.0.1:1000/eliminar/{{ i.id }}">Eliminar</a>
+                    </td>
+                    </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+</body>
+</html>
